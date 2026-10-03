@@ -1,0 +1,113 @@
+body {
+    background-color: #ffffff !important;
+}
+
+.card-box {
+    background: #ffffff;
+    border-radius: 12px;
+}
+
+/* Estilo común para la palabra objetivo y la zona de escritura */
+.word-display {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    word-break: break-all;
+    line-height: 1.2;
+    min-height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    direction: ltr;
+    unicode-bidi: plaintext;
+    
+    /* NUEVO: Limitar tamaño y evitar que expanda la página */
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* Palabra objetivo: Gris claro */
+#targetWord {
+    color: #ced4da; 
+}
+
+/* Lo que vas escribiendo: Amarillo opaco (#d39e00) */
+#liveInputDisplay {
+    color: #d39e00;
+}
+
+/* Estado cuando el usuario aún no escribe nada */
+.input-display-placeholder {
+    color: #adb5bd !important;
+    font-size: 1.2rem !important;
+    font-weight: 400 !important;
+}
+
+/* Estado de éxito exacto (Todo verde) */
+#targetWord.success,
+#liveInputDisplay.success {
+    color: #198754 !important;
+}
+
+/* Input oculto pero activo para recibir los eventos de teclado e IME */
+.hidden-input {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* --- ESTILOS DEL TECLADO VIRTUAL --- */
+.keyboard-container {
+    max-width: 600px;
+    width: 100%;
+    background-color: #f8f9fa;
+    border: 1px solid #eaecef;
+}
+
+.kb-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.kb-key {
+    background-color: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 8px; /* Ligeramente redondeado */
+    width: 45px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #495057;
+    position: relative;
+    user-select: none;
+    transition: all 0.1s ease;
+}
+
+/* Letra secundaria superior (Shift / dobles) */
+.sub-char {
+    position: absolute;
+    top: 2px;
+    right: 5px;
+    font-size: 0.65rem;
+    color: #adb5bd;
+}
+
+/* Efecto visual cuando la tecla física es presionada */
+.kb-key.active {
+    background-color: #d39e00 !important; /* Coincide con el amarillo opaco del texto */
+    color: #ffffff !important;
+    border-color: #b08500 !important;
+    transform: scale(0.95);
+    box-shadow: 0 0 8px rgba(211, 158, 0, 0.4);
+}
+
+.kb-key.active .sub-char {
+    color: #ffeeba;
+}
