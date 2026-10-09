@@ -12,7 +12,6 @@ const wordMeaningEl = document.getElementById('wordMeaning');
 const timerDisplayEl = document.getElementById('timerDisplay');
 const skipBtn = document.getElementById('skipBtn');
 
-// Cargar palabras desde el servidor Node.js
 async function fetchWords() {
     try {
         const response = await fetch('/api/words');
@@ -31,7 +30,6 @@ function loadNewWord() {
     userInputEl.value = '';
     userInputEl.disabled = false;
     
-    // Resetear clases y estilos visuales
     targetWordEl.classList.remove('success');
     liveInputDisplayEl.classList.remove('success');
     liveInputDisplayEl.classList.add('input-display-placeholder');
@@ -40,14 +38,12 @@ function loadNewWord() {
     wordMeaningEl.style.visibility = 'hidden';
     wordMeaningEl.textContent = '';
     
-    // Seleccionar palabra aleatoria
     const randomIndex = Math.floor(Math.random() * words.length);
     currentWord = words[randomIndex].word;
     currentMeaning = words[randomIndex].meaning;
     
     targetWordEl.textContent = currentWord;
     
-    // Reiniciar temporizador
     clearInterval(timerInterval);
     startTime = null;
     timerDisplayEl.textContent = 'Tiempo: 0.0s';
@@ -65,16 +61,15 @@ function startTimer() {
     }
 }
 
-// Mantener el input oculto enfocado al hacer clic en cualquier parte de la tarjeta
+// Mantener el foco en el input oculto al hacer clic en la tarjeta
 document.addEventListener('click', () => {
     if (!isFinished) {
         userInputEl.focus();
     }
 });
 
-// ILUMINACIÓN DEL TECLADO VIRTUAL SEGÚN LA TECLA FÍSICA PRESIONADA
+// Iluminación del teclado virtual
 document.addEventListener('keydown', (e) => {
-    // Buscar la tecla en el teclado virtual mediante su código físico (ej. 'KeyQ', 'KeyA', etc.)
     const keyElement = document.querySelector(`.kb-key[data-key="${e.code}"]`);
     if (keyElement) {
         keyElement.classList.add('active');
@@ -88,66 +83,58 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-let ticking = false; // Bandera para controlar el ciclo de animación de forma estricta
-
-userInputEl.addEventListener('input', () => {
+// Lectura estándar y limpia del input oculto con soporte IME coreano
+userInputEl.addEventListener('input', (e) => {
     if (isFinished) return;
 
-    // Si ya hay un cuadro de animación pendiente, evitamos saturar el DOM en ráfagas rápidas
-    if (!ticking) {
-        ticking = true;
+    // SI EL IME ESTÁ COMPONIendo AÚN, NO VALIDES NADA. 
+    // Esto evita que el script interrumpa al teclado en el último carácter.
+    
 
-        requestAnimationFrame(() => {
-            if (isFinished) {
-                ticking = false;
-                return;
-            }
+    requestAnimationFrame(() => {
+        if (isFinished) return;
+        
+        let typedText = userInputEl.value;
 
-            let typedText = userInputEl.value;
+        const maxLength = Math.max(currentWord.length * 2, 30);
+        if (typedText.length > maxLength) {
+            typedText = typedText.substring(0, maxLength);
+            userInputEl.value = typedText;
+        }
 
-            // Límite razonable para evitar spam de longitud
-            const maxLength = Math.max(currentWord.length * 2, 30);
-            if (typedText.length > maxLength) {
-                typedText = typedText.substring(0, maxLength);
-                userInputEl.value = typedText;
-            }
+        if (typedText.length > 0 && !startTime) {
+            startTimer();
+        }
 
-            if (typedText.length > 0 && !startTime) {
-                startTimer();
-            }
+        if (typedText.length > 0) {
+            liveInputDisplayEl.classList.remove('input-display-placeholder');
+            liveInputDisplayEl.textContent = typedText;
+        } else {
+            liveInputDisplayEl.classList.add('input-display-placeholder');
+            liveInputDisplayEl.textContent = 'Escribe aquí...';
+        }
 
-            // Actualizar la zona visual de manera inmediata pero controlada
-            if (typedText.length > 0) {
-                liveInputDisplayEl.classList.remove('input-display-placeholder');
-                liveInputDisplayEl.textContent = typedText;
-            } else {
-                liveInputDisplayEl.classList.add('input-display-placeholder');
-                liveInputDisplayEl.textContent = 'Escribe aquí...';
-            }
+        // Validación estricta por longitud exacta (solo si el IME ya cerró la sílaba)
+        //if (e.isComposing) return;
+        if (liveInputDisplayEl.textContent === currentWord) {
+            isFinished = true;
+            clearInterval(timerInterval);
+            const finalTime = ((Date.now() - startTime) / 1000).toFixed(1);
 
-            // Validación estricta por longitud exacta
-            if (typedText.length === currentWord.length) {
-                if (typedText === currentWord) {
-                    isFinished = true;
-                    clearInterval(timerInterval);
-                    const finalTime = ((Date.now() - startTime) / 1000).toFixed(1);
+            targetWordEl.classList.add('success');
+            liveInputDisplayEl.classList.add('success');
+            //userInputEl.disabled = true;
+            userInputEl.value = ''; // Limpiamos el input al instante para evitar entradas extra
+            userInputEl.blur();     // Quitamos el foco con elegancia sin romper el DOM
 
-                    targetWordEl.classList.add('success');
-                    liveInputDisplayEl.classList.add('success');
-                    userInputEl.disabled = true;
+            wordMeaningEl.textContent = `${currentMeaning} (${finalTime}s)`;
+            wordMeaningEl.style.visibility = 'visible';
 
-                    wordMeaningEl.textContent = `${currentMeaning} (${finalTime}s)`;
-                    wordMeaningEl.style.visibility = 'visible';
-
-                    setTimeout(() => {
-                        loadNewWord();
-                    }, 1800);
-                }
-            }
-
-            ticking = false; // Liberamos el cerrojo para el siguiente cuadro
-        });
-    }
+            setTimeout(() => {
+                loadNewWord();
+            }, 1800);
+        }
+    });
 });
 
 skipBtn.addEventListener('click', (e) => {
@@ -155,5 +142,4 @@ skipBtn.addEventListener('click', (e) => {
     loadNewWord();
 });
 
-// Inicializar la aplicación
 fetchWords();

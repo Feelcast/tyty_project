@@ -1,0 +1,59 @@
+userInputEl.addEventListener('input', () => {
+    if (isFinished) return;
+
+    // Si ya hay un cuadro de animación pendiente, evitamos saturar el DOM en ráfagas rápidas
+    if (!ticking) {
+        ticking = true;
+
+        requestAnimationFrame(() => {
+            if (isFinished) {
+                ticking = false;
+                return;
+            }
+
+            let typedText = userInputEl.value;
+
+            // Límite razonable para evitar spam de longitud
+            const maxLength = Math.max(currentWord.length * 2, 30);
+            if (typedText.length > maxLength) {
+                typedText = typedText.substring(0, maxLength);
+                userInputEl.value = typedText;
+            }
+
+            if (typedText.length > 0 && !startTime) {
+                startTimer();
+            }
+
+            // Actualizar la zona visual de manera inmediata pero controlada
+            if (typedText.length > 0) {
+                liveInputDisplayEl.classList.remove('input-display-placeholder');
+                liveInputDisplayEl.textContent = typedText;
+            } else {
+                liveInputDisplayEl.classList.add('input-display-placeholder');
+                liveInputDisplayEl.textContent = 'Escribe aquí...';
+            }
+
+            // Validación estricta por longitud exacta
+            if (typedText.length === currentWord.length) {
+                if (typedText === currentWord) {
+                    isFinished = true;
+                    clearInterval(timerInterval);
+                    const finalTime = ((Date.now() - startTime) / 1000).toFixed(1);
+
+                    targetWordEl.classList.add('success');
+                    liveInputDisplayEl.classList.add('success');
+                    userInputEl.disabled = true;
+
+                    wordMeaningEl.textContent = `${currentMeaning} (${finalTime}s)`;
+                    wordMeaningEl.style.visibility = 'visible';
+
+                    setTimeout(() => {
+                        loadNewWord();
+                    }, 1800);
+                }
+            }
+
+            ticking = false; // Liberamos el cerrojo para el siguiente cuadro
+        });
+    }
+});
