@@ -11,6 +11,8 @@ const userInputEl = document.getElementById('userInput');
 const wordMeaningEl = document.getElementById('wordMeaning');
 const timerDisplayEl = document.getElementById('timerDisplay');
 const skipBtn = document.getElementById('skipBtn');
+const keypressSound = new Audio('audio/keypress_edit.mp3');
+const successSound = new Audio('audio/success.mp3');
 
 async function fetchWords() {
     try {
@@ -73,7 +75,11 @@ document.addEventListener('keydown', (e) => {
     const keyElement = document.querySelector(`.kb-key[data-key="${e.code}"]`);
     if (keyElement) {
         keyElement.classList.add('active');
+        keypressSound.pause();
+        keypressSound.currentTime = 0;
+        keypressSound.play();
     }
+
 });
 
 document.addEventListener('keyup', (e) => {
@@ -89,8 +95,6 @@ userInputEl.addEventListener('input', (e) => {
 
     // SI EL IME ESTÁ COMPONIendo AÚN, NO VALIDES NADA. 
     // Esto evita que el script interrumpa al teclado en el último carácter.
-    
-
     requestAnimationFrame(() => {
         if (isFinished) return;
         
@@ -129,6 +133,10 @@ userInputEl.addEventListener('input', (e) => {
 
             wordMeaningEl.textContent = `${currentMeaning} (${finalTime}s)`;
             wordMeaningEl.style.visibility = 'visible';
+
+            successSound.pause();
+            successSound.currentTime = 0;
+            successSound.play();
 
             setTimeout(() => {
                 loadNewWord();
