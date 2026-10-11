@@ -44,7 +44,7 @@ function loadNewWord() {
     currentWord = words[randomIndex].word;
     currentMeaning = words[randomIndex].meaning;
     
-    targetWordEl.textContent = currentWord;
+    targetWordEl.innerHTML = currentWord.split('').map(char => `<span>${char}</span>`).join('');
     
     clearInterval(timerInterval);
     startTime = null;
@@ -100,6 +100,15 @@ userInputEl.addEventListener('input', (e) => {
         
         let typedText = userInputEl.value;
 
+        const targetSpans = targetWordEl.querySelectorAll('span');
+        targetSpans.forEach((span, index) => {
+            if (index < typedText.length && typedText[index] === currentWord[index]) {
+                span.classList.add('progress-match');
+            } else {
+                span.classList.remove('progress-match');
+            }
+        });
+
         const maxLength = Math.max(currentWord.length * 2, 30);
         if (typedText.length > maxLength) {
             typedText = typedText.substring(0, maxLength);
@@ -124,6 +133,8 @@ userInputEl.addEventListener('input', (e) => {
             isFinished = true;
             clearInterval(timerInterval);
             const finalTime = ((Date.now() - startTime) / 1000).toFixed(1);
+
+            
 
             targetWordEl.classList.add('success');
             liveInputDisplayEl.classList.add('success');

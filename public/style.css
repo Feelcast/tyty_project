@@ -24,16 +24,26 @@ body {
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
-}
-/* Palabra objetivo: Gris claro */
-#targetWord {
-    color: #ced4da; 
+    white-space: pre;
 }
 
+#targetWord span {
+    color: #ced4da;
+    transition: color 0.05s ease;
+    white-space: pre; /* NUEVO: Asegura que el espacio cuente como un caracter visual */
+}
+
+/* Color secundario para letras correctas a mitad de la palabra (ej. un azul/verde suave) */
+#targetWord span.progress-match {
+    color: #88b04b !important; /* Azul cian brillante (o usa #20c997 para un verde menta) */
+}
+/* Verde de éxito total (se mantiene para cuando aciertas toda la palabra) */
+#targetWord.success span {
+    color: #198754 !important;
+}
 /* Lo que vas escribiendo: Amarillo opaco (#d39e00) */
 #liveInputDisplay {
-    color: #d39e00;
+    color: #b19cd9 /*#d39e00;*/
 }
 
 /* Estado cuando el usuario aún no escribe nada */
@@ -101,7 +111,7 @@ body {
 
 /* Efecto visual cuando la tecla física es presionada */
 .kb-key.active {
-    background-color: #d39e00 !important; /* Coincide con el amarillo opaco del texto */
+    background-color: #b19cd9 !important; /* Coincide con el amarillo opaco del texto */
     color: #ffffff !important;
     border-color: #b08500 !important;
     transform: scale(0.95);
