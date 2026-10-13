@@ -63,6 +63,12 @@ function startTimer() {
     }
 }
 
+// Opcional en tu script.js para detección de dispositivos táctiles móviles
+if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0 && window.innerWidth < 768) {
+    // El CSS anterior ya se encarga de mostrar el overlay, pero puedes forzarlo aquí si lo deseas
+    document.getElementById('mobileWarning').classList.remove('d-none');
+}
+
 // Mantener el foco en el input oculto al hacer clic en la tarjeta
 document.addEventListener('click', () => {
     if (!isFinished) {
