@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="style.css">
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body class="bg-white d-flex align-items-center justify-content-center vh-100 m-0">
 
@@ -22,70 +23,105 @@
     </div>
 </div>
 
-<div class="container text-center">
-    <div class="card card-box p-4 mx-auto border-0" style="max-width: 550px; width: 100%;">
-        <!--h1 class="h5 mb-4 text-secondary">Práctica de Teclado Coreano</h1-->
-        
-        <!-- Palabra objetivo (Gris claro) -->
-        <div id="targetWord" class="word-display mb-3">Cargando...</div>
-        
-        <!-- Zona visual donde se refleja el texto en amarillo opaco -->
-        <div id="liveInputDisplay" class="word-display mb-3 input-display-placeholder">Escribe aquí...</div>
-        
-        <!-- Input oculto que captura el IME de coreano nativamente sin interferencias -->
-        <input type="text" id="userInput" class="hidden-input" autocomplete="off" autocapitalize="off" spellcheck="false">
-
-        <!-- Significado que aparece al acertar -->
-        <div id="wordMeaning" class="text-success fw-bold fs-5 mb-3" style="visibility: hidden; min-height: 1.5rem;"></div>
-
-        <!-- Cronómetro -->
-        <div id="timerDisplay" class="text-muted fs-6 mb-3">Tiempo: 0.0s</div>
-
-        <!-- Botones necesarios -->
-        <div class="d-flex justify-content-center gap-2">
-            <button id="skipBtn" class="btn btn-outline-secondary btn-sm">Saltar palabra</button>
-        </div>
-    </div>
-
-<!-- Contenedor del Teclado Virtual Coreano (Distribución 2-set estándar) -->
-    <div id="virtualKeyboard" class="keyboard-container mx-auto p-3 shadow-sm rounded-4">
-        <!-- Fila 1: ㅂ ㅈ ㄷ ㄱ ㅅ ㅛ ㅕ ㅑ ㅐ ㅔ -->
-        <div class="kb-row">
-            <div class="kb-key" data-key="KeyQ">ㅂ<span class="sub-char">ㅃ</span></div>
-            <div class="kb-key" data-key="KeyW">ㅈ<span class="sub-char">ㅉ</span></div>
-            <div class="kb-key" data-key="KeyE">ㄷ<span class="sub-char">ㄸ</span></div>
-            <div class="kb-key" data-key="KeyR">ㄱ<span class="sub-char">ㄲ</span></div>
-            <div class="kb-key" data-key="KeyT">ㅅ<span class="sub-char">ㅆ</span></div>
-            <div class="kb-key" data-key="KeyY">ㅛ</div>
-            <div class="kb-key" data-key="KeyU">ㅕ</div>
-            <div class="kb-key" data-key="KeyI">ㅑ</div>
-            <div class="kb-key" data-key="KeyO">ㅐ<span class="sub-char">ㅒ</span></div>
-            <div class="kb-key" data-key="KeyP">ㅔ<span class="sub-char">ㅞ</span></div>
-        </div>
-        <!-- Fila 2: ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ -->
-        <div class="kb-row">
-            <div class="kb-key" data-key="KeyA">ㅁ</div>
-            <div class="kb-key" data-key="KeyS">ㄴ</div>
-            <div class="kb-key" data-key="KeyD">ㅇ</div>
-            <div class="kb-key" data-key="KeyF">ㄹ</div>
-            <div class="kb-key" data-key="KeyG">ㅎ</div>
-            <div class="kb-key" data-key="KeyH">ㅗ</div>
-            <div class="kb-key" data-key="KeyJ">ㅓ</div>
-            <div class="kb-key" data-key="KeyK">ㅏ</div>
-            <div class="kb-key" data-key="KeyL">ㅣ</div>
-        </div>
-        <!-- Fila 3: ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ -->
-        <div class="kb-row">
-            <div class="kb-key" data-key="KeyZ">ㅋ</div>
-            <div class="kb-key" data-key="KeyX">ㅌ</div>
-            <div class="kb-key" data-key="KeyC">ㅊ</div>
-            <div class="kb-key" data-key="KeyV">ㅍ</div>
-            <div class="kb-key" data-key="KeyB">ㅠ</div>
-            <div class="kb-key" data-key="KeyN">ㅜ</div>
-            <div class="kb-key" data-key="KeyM">ㅡ</div>
-        </div>
+<!-- Lobby flotante en la esquina superior derecha -->
+<div id="lobbyContainer" class="lobby-corner">
+    <div class="d-flex align-items-center gap-2 bg-white p-2 rounded-3 shadow-sm border">
+        <span id="roomStatus" class="text-muted small px-1">Modo Solo</span>
+        <button id="createRoomBtn" class="btn btn-outline-primary btn-sm py-0 px-2" style="font-size: 1rem;">Crear Sala</button>
+        <input type="text" id="roomCodeInput" placeholder="Código" class="form-control form-control-sm text-uppercase" style="width: 75px; font-size: 0.8rem;">
+        <button id="joinRoomBtn" class="btn btn-primary btn-sm py-0 px-2" style="font-size: 1rem;">Unirse</button>
     </div>
 </div>
+
+<!-- Contenedor principal de Pantalla Dividida (Co-op Split Screen) -->
+<div class="container-fluid h-100 d-flex align-items-center justify-content-center p-3 text-center">
+    <div class="row w-100 justify-content-center g-4" style="max-width: 1100px;">
+        
+        <!-- JUGADOR 1 (Tú) -->
+        <div class="col-12 col-md-6">
+            <div class="card card-box p-4 mx-auto border-0 h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h1 id="identifier" class="h6 text-secondary m-0 d-none">Tú (Práctica)</h1>
+                </div>
+                
+                <div id="targetWord" class="word-display mb-3">Cargando...</div>
+                <div id="liveInputDisplay" class="word-display mb-3 input-display-placeholder">Escribe aquí...</div>
+                <input type="text" id="userInput" class="hidden-input" autocomplete="off" autocapitalize="off" spellcheck="false">
+
+                <div id="wordMeaning" class="text-success fw-bold fs-6 mb-3" style="visibility: hidden; min-height: 1.5rem;"></div>
+                <div id="timerDisplay" class="text-muted small mb-3">0.0s</div>
+
+                <div class="d-flex justify-content-center gap-2 mt-auto mb-3">
+                    <button id="skipBtn" class="btn btn-outline-secondary btn-sm">Saltar palabra</button>
+                </div>
+            <!-- Contenedor del Teclado Virtual Coreano (Distribución 2-set estándar) -->
+                <div id="virtualKeyboard" class="keyboard-container mx-auto p-3 shadow-sm rounded-4">
+                    <!-- Fila 1: ㅂ ㅈ ㄷ ㄱ ㅅ ㅛ ㅕ ㅑ ㅐ ㅔ -->
+                    <div class="kb-row">
+                        <div class="kb-key" data-key="KeyQ">ㅂ<span class="sub-char">ㅃ</span></div>
+                        <div class="kb-key" data-key="KeyW">ㅈ<span class="sub-char">ㅉ</span></div>
+                        <div class="kb-key" data-key="KeyE">ㄷ<span class="sub-char">ㄸ</span></div>
+                        <div class="kb-key" data-key="KeyR">ㄱ<span class="sub-char">ㄲ</span></div>
+                        <div class="kb-key" data-key="KeyT">ㅅ<span class="sub-char">ㅆ</span></div>
+                        <div class="kb-key" data-key="KeyY">ㅛ</div>
+                        <div class="kb-key" data-key="KeyU">ㅕ</div>
+                        <div class="kb-key" data-key="KeyI">ㅑ</div>
+                        <div class="kb-key" data-key="KeyO">ㅐ<span class="sub-char">ㅒ</span></div>
+                        <div class="kb-key" data-key="KeyP">ㅔ<span class="sub-char">ㅞ</span></div>
+                    </div>
+                    <!-- Fila 2: ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ -->
+                    <div class="kb-row">
+                        <div class="kb-key" data-key="KeyA">ㅁ</div>
+                        <div class="kb-key" data-key="KeyS">ㄴ</div>
+                        <div class="kb-key" data-key="KeyD">ㅇ</div>
+                        <div class="kb-key" data-key="KeyF">ㄹ</div>
+                        <div class="kb-key" data-key="KeyG">ㅎ</div>
+                        <div class="kb-key" data-key="KeyH">ㅗ</div>
+                        <div class="kb-key" data-key="KeyJ">ㅓ</div>
+                        <div class="kb-key" data-key="KeyK">ㅏ</div>
+                        <div class="kb-key" data-key="KeyL">ㅣ</div>
+                    </div>
+                    <!-- Fila 3: ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ -->
+                    <div class="kb-row">
+                        <div class="kb-key" data-key="KeyZ">ㅋ</div>
+                        <div class="kb-key" data-key="KeyX">ㅌ</div>
+                        <div class="kb-key" data-key="KeyC">ㅊ</div>
+                        <div class="kb-key" data-key="KeyV">ㅍ</div>
+                        <div class="kb-key" data-key="KeyB">ㅠ</div>
+                        <div class="kb-key" data-key="KeyN">ㅜ</div>
+                        <div class="kb-key" data-key="KeyM">ㅡ</div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- JUGADOR 2 / COMPAÑERO (Espejo - Oculto por defecto hasta unirse a una sala) -->
+        <div id="partnerColumn" class="col-12 col-md-6 d-none">
+            <div class="card card-box p-4 mx-auto border-0 h-100 bg-light">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h1 class="h6 text-muted m-0">Compañero (Espejo)</h1>
+                    <span class="badge bg-secondary-subtle text-secondary small">En vivo</span>
+                </div>
+                
+                <!-- Palabra objetivo del compañero -->
+                <div id="partnerTargetWord" class="word-display mb-3" style="color: #adb5bd;">Esperando...</div>
+                
+                <!-- Input visual en vivo del compañero -->
+                <div id="partnerLiveInput" class="word-display mb-3 input-display-placeholder" style="color: #6c757d;">Esperando escritura...</div>
+
+                <div class="text-muted small fw-bold mb-3" style="min-height: 1.5rem; visibility: hidden;">&nbsp;</div>
+                
+                <div class="d-flex justify-content-center gap-2 mt-auto" style="visibility: hidden;">
+                    <button class="btn btn-sm">Placeholder</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
 
 <!-- Script de lógica -->
 <script src="script.js"></script>

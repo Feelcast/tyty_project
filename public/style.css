@@ -1,10 +1,33 @@
 body {
     background-color: #ffffff !important;
 }
+/* Lobby flotante en la esquina superior derecha */
+.lobby-corner {
+    position: fixed;
+    top: 15px;
+    right: 15px;
+    z-index: 1050;
+}
 
+/* Ajustes de tamaño para las tarjetas en modo split-screen */
 .card-box {
     background: #ffffff;
     border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+@media (max-width: 767.98px) {
+    .lobby-corner {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin-bottom: 1rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
 }
 
 /* Por defecto en celulares: mostramos la advertencia y ocultamos la app */
@@ -141,4 +164,16 @@ body {
 
 .kb-key.active .sub-char {
     color: #ffeeba;
+}
+
+#createRoomBtn.btn{
+    background-color: #b19cd9;
+    color: #ffffff !important;
+    border-width: 0;
+}
+
+#joinRoomBtn.btn{
+    background-color: #b19cd9;
+    color: #ffffff !important;
+    border-width: 0;
 }

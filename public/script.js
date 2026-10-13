@@ -5,6 +5,7 @@ let startTime = null;
 let timerInterval = null;
 let isFinished = false;
 
+//cosas locales
 const targetWordEl = document.getElementById('targetWord');
 const liveInputDisplayEl = document.getElementById('liveInputDisplay');
 const userInputEl = document.getElementById('userInput');
@@ -13,6 +14,20 @@ const timerDisplayEl = document.getElementById('timerDisplay');
 const skipBtn = document.getElementById('skipBtn');
 const keypressSound = new Audio('audio/keypress_edit.mp3');
 const successSound = new Audio('audio/success.mp3');
+
+//cosas del socket
+// Inicializar conexión de Socket.io
+const socket = io();
+let currentRoomCode = null;
+
+const lobbyContainer = document.getElementById('lobbyContainer');
+const createRoomBtn = document.getElementById('createRoomBtn');
+const joinRoomBtn = document.getElementById('joinRoomBtn');
+const roomCodeInput = document.getElementById('roomCodeInput');
+const roomStatus = document.getElementById('roomStatus');
+const partnerCardContainer = document.getElementById('partnerCardContainer');
+const partnerTargetWordEl = document.getElementById('partnerTargetWord');
+const partnerLiveInputEl = document.getElementById('partnerLiveInput');
 
 async function fetchWords() {
     try {
@@ -62,6 +77,50 @@ function startTimer() {
         }, 100);
     }
 }
+
+// Al crear sala exitosamente:
+createRoomBtn.addEventListener('click', () => {
+    socket.emit('create-room', (res) => {
+        if (res.success) {
+            currentRoomCode = res.roomCode;
+            roomStatus.textContent = `Sala: ${currentRoomCode}`;
+            document.getElementById('partnerColumn').classList.remove('d-none'); // Muestra la mitad de la pantalla del compañero
+            document.getElementById('identifier').classList.remove('d-none'); // Muestra la mitad de la pantalla del compañero
+        }
+    });
+});
+
+// Al unirse a una sala exitosamente:
+joinRoomBtn.addEventListener('click', () => {
+    const code = roomCodeInput.value.trim().toUpperCase();
+    if (!code) return;
+    
+    socket.emit('join-room', code, (res) => {
+        if (res.success) {
+            currentRoomCode = code;
+            roomStatus.textContent = `Sala: ${currentRoomCode}`;
+            document.getElementById('partnerColumn').classList.remove('d-none'); // Muestra la mitad de la pantalla del compañero
+        } else {
+            alert(res.message);
+        }
+    });
+});
+
+socket.on('partner-joined', () => {
+    roomStatus.textContent = `Sala: ${currentRoomCode} (Conectado)`;
+});
+
+// ESCUCHAR EL TECLEO DEL COMPAÑERO
+socket.on('partner-typing', (data) => {
+    partnerTargetWordEl.textContent = data.currentWord;
+    if (data.typedText.length > 0) {
+        partnerLiveInputEl.classList.remove('input-display-placeholder');
+        partnerLiveInputEl.textContent = data.typedText;
+    } else {
+        partnerLiveInputEl.classList.add('input-display-placeholder');
+        partnerLiveInputEl.textContent = 'Escribe aquí...';
+    }
+});
 
 // Opcional en tu script.js para detección de dispositivos táctiles móviles
 if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0 && window.innerWidth < 768) {
@@ -133,6 +192,14 @@ userInputEl.addEventListener('input', (e) => {
             liveInputDisplayEl.textContent = 'Escribe aquí...';
         }
 
+        // Justo dentro de tu input listener, donde ya calculas el typedText:
+        if (currentRoomCode) {
+            socket.emit('player-typing', {
+                roomCode: currentRoomCode,
+                typedText: typedText,
+                currentWord: currentWord
+            });
+        }
         // Validación estricta por longitud exacta (solo si el IME ya cerró la sílaba)
         //if (e.isComposing) return;
         if (liveInputDisplayEl.textContent === currentWord) {
