@@ -100,6 +100,7 @@ joinRoomBtn.addEventListener('click', () => {
             currentRoomCode = code;
             roomStatus.textContent = `Sala: ${currentRoomCode}`;
             document.getElementById('partnerColumn').classList.remove('d-none'); // Muestra la mitad de la pantalla del compañero
+            document.getElementById('identifier').classList.remove('d-none'); // Muestra la mitad de la pantalla del compañero
         } else {
             alert(res.message);
         }
@@ -112,14 +113,30 @@ socket.on('partner-joined', () => {
 
 // ESCUCHAR EL TECLEO DEL COMPAÑERO
 socket.on('partner-typing', (data) => {
-    partnerTargetWordEl.textContent = data.currentWord;
+    // data = { currentWord, typedText }
+    
+    // Si la palabra objetivo cambió o se inicializó, renderizamos sus spans
+    if (partnerTargetWordEl.textContent !== data.currentWord) {
+        partnerTargetWordEl.innerHTML = data.currentWord.split('').map(char => `<span>${char}</span>`).join('');
+    }
+
     if (data.typedText.length > 0) {
         partnerLiveInputEl.classList.remove('input-display-placeholder');
         partnerLiveInputEl.textContent = data.typedText;
     } else {
         partnerLiveInputEl.classList.add('input-display-placeholder');
-        partnerLiveInputEl.textContent = 'Escribe aquí...';
+        partnerLiveInputEl.textContent = 'Esperando escritura...';
     }
+
+    // Aplicar el mismo pintado carácter por carácter (progreso)
+    const partnerSpans = partnerTargetWordEl.querySelectorAll('span');
+    partnerSpans.forEach((span, index) => {
+        if (index < data.typedText.length && data.typedText[index] === data.currentWord[index]) {
+            span.classList.add('progress-match');
+        } else {
+            span.classList.remove('progress-match');
+        }
+    });
 });
 
 // Opcional en tu script.js para detección de dispositivos táctiles móviles

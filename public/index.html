@@ -54,9 +54,9 @@
                 <div class="d-flex justify-content-center gap-2 mt-auto mb-3">
                     <button id="skipBtn" class="btn btn-outline-secondary btn-sm">Saltar palabra</button>
                 </div>
-            <!-- Contenedor del Teclado Virtual Coreano (Distribución 2-set estándar) -->
+
+                <!-- Contenedor del Teclado Virtual Coreano -->
                 <div id="virtualKeyboard" class="keyboard-container mx-auto p-3 shadow-sm rounded-4">
-                    <!-- Fila 1: ㅂ ㅈ ㄷ ㄱ ㅅ ㅛ ㅕ ㅑ ㅐ ㅔ -->
                     <div class="kb-row">
                         <div class="kb-key" data-key="KeyQ">ㅂ<span class="sub-char">ㅃ</span></div>
                         <div class="kb-key" data-key="KeyW">ㅈ<span class="sub-char">ㅉ</span></div>
@@ -69,7 +69,6 @@
                         <div class="kb-key" data-key="KeyO">ㅐ<span class="sub-char">ㅒ</span></div>
                         <div class="kb-key" data-key="KeyP">ㅔ<span class="sub-char">ㅞ</span></div>
                     </div>
-                    <!-- Fila 2: ㅁ ㄴ ㅇ ㄹ ㅎ ㅗ ㅓ ㅏ ㅣ -->
                     <div class="kb-row">
                         <div class="kb-key" data-key="KeyA">ㅁ</div>
                         <div class="kb-key" data-key="KeyS">ㄴ</div>
@@ -81,7 +80,6 @@
                         <div class="kb-key" data-key="KeyK">ㅏ</div>
                         <div class="kb-key" data-key="KeyL">ㅣ</div>
                     </div>
-                    <!-- Fila 3: ㅋ ㅌ ㅊ ㅍ ㅠ ㅜ ㅡ -->
                     <div class="kb-row">
                         <div class="kb-key" data-key="KeyZ">ㅋ</div>
                         <div class="kb-key" data-key="KeyX">ㅌ</div>
@@ -93,34 +91,43 @@
                     </div>
                 </div>
             </div>
-            </div>
         </div>
 
-        <!-- JUGADOR 2 / COMPAÑERO (Espejo - Oculto por defecto hasta unirse a una sala) -->
+        <!-- JUGADOR 2 / COMPAÑERO (Espejo - Gemelo estructural) -->
         <div id="partnerColumn" class="col-12 col-md-6 d-none">
             <div class="card card-box p-4 mx-auto border-0 h-100 bg-light">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h1 class="h6 text-muted m-0">Compañero (Espejo)</h1>
-                    <span class="badge bg-secondary-subtle text-secondary small">En vivo</span>
                 </div>
                 
-                <!-- Palabra objetivo del compañero -->
-                <div id="partnerTargetWord" class="word-display mb-3" style="color: #adb5bd;">Esperando...</div>
-                
-                <!-- Input visual en vivo del compañero -->
-                <div id="partnerLiveInput" class="word-display mb-3 input-display-placeholder" style="color: #6c757d;">Esperando escritura...</div>
+                <!-- Elementos idénticos pero con prefijo partner -->
+                <div id="partnerTargetWord" class="word-display mb-3">Esperando...</div>
+                <div id="partnerLiveInput" class="word-display mb-3 input-display-placeholder">Esperando escritura...</div>
 
-                <div class="text-muted small fw-bold mb-3" style="min-height: 1.5rem; visibility: hidden;">&nbsp;</div>
-                
-                <div class="d-flex justify-content-center gap-2 mt-auto" style="visibility: hidden;">
-                    <button class="btn btn-sm">Placeholder</button>
+                <div id="partnerWordMeaning" class="text-success fw-bold fs-6 mb-3" style="visibility: hidden; min-height: 1.5rem;"></div>
+                <div id="partnerTimerDisplay" class="text-muted small mb-3">0.0s</div>
+
+                <div class="d-flex justify-content-center gap-2 mt-auto mb-3" style="visibility: hidden;">
+                    <button class="btn btn-outline-secondary btn-sm">Placeholder</button>
+                </div>
+
+                <!-- Teclado virtual fantasma/decorativo para mantener idéntica la altura de la tarjeta -->
+                <div class="keyboard-container mx-auto p-3 shadow-sm rounded-4 opacity-50">
+                    <div class="kb-row">
+                        <div class="kb-key">ㅂ</div><div class="kb-key">ㅈ</div><div class="kb-key">ㄷ</div><div class="kb-key">ㄱ</div><div class="kb-key">ㅅ</div><div class="kb-key">ㅛ</div><div class="kb-key">ㅕ</div><div class="kb-key">ㅑ</div><div class="kb-key">ㅐ</div><div class="kb-key">ㅔ</div>
+                    </div>
+                    <div class="kb-row">
+                        <div class="kb-key">ㅁ</div><div class="kb-key">ㄴ</div><div class="kb-key">ㅇ</div><div class="kb-key">ㄹ</div><div class="kb-key">ㅎ</div><div class="kb-key">ㅗ</div><div class="kb-key">ㅓ</div><div class="kb-key">ㅏ</div><div class="kb-key">ㅣ</div>
+                    </div>
+                    <div class="kb-row">
+                        <div class="kb-key">ㅋ</div><div class="kb-key">ㅌ</div><div class="kb-key">ㅊ</div><div class="kb-key">ㅍ</div><div class="kb-key">ㅠ</div><div class="kb-key">ㅜ</div><div class="kb-key">ㅡ</div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
 </div>
-
 
 
 <!-- Script de lógica -->
