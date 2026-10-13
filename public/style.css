@@ -7,6 +7,27 @@ body {
     border-radius: 12px;
 }
 
+/* Por defecto en celulares: mostramos la advertencia y ocultamos la app */
+.mobile-warning-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.98);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* En pantallas medianas o grandes (laptops/PCs), ocultamos la advertencia */
+@media (min-width: 768px) {
+    .mobile-warning-overlay {
+        display: none !important;
+    }
+}
+
 /* Estilo común para la palabra objetivo y la zona de escritura */
 .word-display {
     font-size: clamp(2rem, 5vw, 3.5rem);
