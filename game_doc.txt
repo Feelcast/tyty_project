@@ -12,3 +12,62 @@ Sistema de puntos base:
 Modo versus:
 - rondas de palabras/frases, gana la ronda el jugador con la mejor Categoría, si hay un empate se determina por puntaje de ronda
 - al final de N rondas, gana el jugador con mas rondas ganadas. Si hay empate se determina por puntaje total acumulado
+
+Ideas de modo roguelike:
+- Pisos comunes:
+    - ronda de N palabras, obtener M palabras performance mínimo X (ej obtener por lo menos 2 tier B en 5 palabras)
+    - Puntuación mínima en ronda de N palabras (ajustada según ronda y piso)
+    - Carrera contra un autómata (texto mas largo)
+    - Modo versus contra autómata de N palabras
+- Jefes:
+    - Autómata trucado
+    - Ronda de N palabras contrareloj
+    - Cualquier combinación de dos o mas pisos comunes
+    - Rondas extra largas
+    - Debufo de categorías
+    - Debufo de puntaje por jamo
+    - -1, -2 backspace permitidos por Categoría
+    - Tiempo mínimo mas dificil para las categorías
+    - Truco sucio del copy-paste para el autómata con cuenta regresiva, como una bomba (solo evasible con escudos y amuletos o siendo lo suficientemente rápido)
+    - Mantener una racha de M palabras de una categoría inferior a S (A, B, C cuando se introduce temporalmente la categoría D)
+
+Hay 3 corazones, cada derrota te devuelve a un piso anterior 
+Las recompensas son items, consumibles y tickets
+Los accesorios e items se pueden obtener como loot en cada piso y jefe o una tienda aleatoria de tickets
+
+Accesorios activos (slot usable, consumible):
+-Escudo mágico: proteje la racha cuando se falla la condición y se destruye (popea)
+-Escudo arcano: igual que el escudo mágico pero funciona desde el inventario
+-Escudo de teclas: anula un uso del backspace, popea al usarse
+-Forwardspace: lo mismo que el escudo de teclas pero funciona desde el inventario
+-Hechizo de protección: proteje la falla de la condición de un piso o un jefe o parte de este (por ejemplo trucos sucios), popea al usarse
+-Runas: lo mismo que el Hechizo de protección pero funciona desde el inventario
+-Autómata mecanógrafo: escribe rápidamente la palabra objetivo de forma automática una vez, siempre saca categoría S
+-Modelo de lenguaje: escribe una palabra objetivo con performance variable
+-Pociones: efectos variables
+-Lapiz y papel: funciona como una copia de cualquier accesorio activo que tengas (lo dibujas)
+-Dado mágico: genera un accesorio activo aleatorio al usarse
+
+Accesorios pasivos:
+-Calculadoras: modifican el multiplicador de distintas formas
+-Lentes de lectura: permite crear rachas con performance de categoría A
+-Cartas azules: modifican el número de puntos por jamo
+-Cartas rojas: bonificación fija de puntos al puntaje total
+-Fotocopiadora: reactiva el efecto de un accesorio pasivo compatible
+
+Accesorios modo-coop:
+-Hilo rojo: iguala el performance de tu compañero al tuyo si es menor, popea al usarse
+-Cable ethernet: comparte los efectos de escudo de teclas y Forwardspace con el compañero
+-Antena wifi: comparte los efectos de escudo mágico y escudo arcano
+-Autómata amigable: ayuda a un compañero a obtener performance S
+-Pastilla mágica: divide los puntajes equitativamente con el compañero, el puntaje total se mantiene
+
+Mecánica de intercambio de items entre rondas
+En modo coop existe un objetivo individual y uno conjunto, el compañero puede perder un corazón si no cumple su objetivo individual
+El piso solo se avanza si se cumplen ambos objetivos individuales y el conjunto
+A veces puede no existir requerimiento individual, sobre todo en jefes
+
+
+
+
+
