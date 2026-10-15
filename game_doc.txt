@@ -1,0 +1,14 @@
+Categoría S Perfecto: no backspace, 0.5 s por jamo en promedio
+Categoría A Asombroso: un backspace por palabra, 0.8 s por jamo en promedio
+Categoría B Muy bien: dos backspace por palabra, 1.0 s por jamo en promedio
+Categoría C Bien: todo lo que no cumpla con B
+
+Sistema de puntos base:
+-Puntaje fijo por jamo en la palabra (10)
+-Multiplicador según Categoría (C es x1, B x1.3, A x1.5, S x2)
+-Sistema de rachas: cada nueva palabra en racha añade un multiplicador adicional (sobre el valor despues de aplicar la Categoría):
+    ejemplo: una racha de 5 genera un multiplicador de puntaje total x5 (10 x N_jamos x2(Perfecto) x5(racha))
+
+Modo versus:
+- rondas de palabras/frases, gana la ronda el jugador con la mejor Categoría, si hay un empate se determina por puntaje de ronda
+- al final de N rondas, gana el jugador con mas rondas ganadas. Si hay empate se determina por puntaje total acumulado

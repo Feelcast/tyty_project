@@ -1,0 +1,135 @@
+// --- MÓDULO DE MÉTRICAS Y CLASIFICACIÓN DE ESCRITURA ---
+let backspaceCount = 0;
+
+// Escuchar los backspaces en tiempo real en el input oculto
+userInputEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Backspace' && !isFinished) {
+        backspaceCount++;
+    }
+});
+
+// Contar Jamos ignorando espacios intermedios y contabilizando correctamente sílabas Hangul y caracteres latinos
+function countHangulJamos(text) {
+    let jamoCount = 0;
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        // Ignoramos los espacios en blanco para el cómputo de velocidad por Jamo
+        if (char === ' ' || char === '\t') continue;
+
+        const code = char.charCodeAt(0);
+        // Verificar si es un bloque de sílabas Hangul (AC00 - D7A3)
+        if (code >= 0xAC00 && code <= 0xD7A3) {
+            const syllableIndex = code - 0xAC00;
+            const jongIndex = syllableIndex % 28;
+            // Inicial + Medial + Final (si tiene batchim)
+            jamoCount += (jongIndex > 0) ? 3 : 2;
+        } else {
+            // Letras sueltas, caracteres latinos (Romaji/Español) o símbolos cuentan como 1
+            jamoCount += 1;
+        }
+    }
+    return jamoCount;
+}
+
+function evaluateWordPerformance(targetText, finalTimeSeconds, totalBackspaces) {
+    const totalJamos = countHangulJamos(targetText);
+    const avgTimePerJamo = totalJamos > 0 ? (finalTimeSeconds / totalJamos) : 0;
+
+    // Contar cuántas palabras componen la frase (separadas por espacios)
+    const wordCount = targetText.trim().split(/\s+/).length;
+
+    // Límite dinámico de backspaces basado en el número de palabras (ej. máx 1 o 2 por palabra)
+    const maxBackspacesForS = 0;                  // S siempre exige 0 backspaces
+    const maxBackspacesForA = wordCount * 1;      // Máximo 1 backspace por palabra en promedio para A
+    const maxBackspacesForB = wordCount * 2;      // Máximo 2 backspaces por palabra en promedio para B
+
+    let tier = 'C';
+    let tierMultiplier = 1;
+
+    // Criterios ajustados con umbrales dinámicos para frases multi-palabra
+    if (totalBackspaces === maxBackspacesForS && avgTimePerJamo <= 0.5) {
+        tier = 'S';
+        tierMultiplier = 2;
+    } else if (totalBackspaces <= maxBackspacesForA && avgTimePerJamo <= 0.8) {
+        tier = 'A';
+        tierMultiplier = 1.5;
+    } else if (totalBackspaces <= maxBackspacesForB && avgTimePerJamo <= 1.0) {
+        tier = 'B';
+        tierMultiplier = 1.3;
+    } else {
+        tier = 'C';
+        tierMultiplier = 1;
+    }
+
+    return {
+        totalJamos,
+        wordCount,
+        avgTimePerJamo: avgTimePerJamo.toFixed(2),
+        backspaces: totalBackspaces,
+        tier,
+        tierMultiplier
+    };
+}
+
+//lógica nueva
+
+// Variables de estado global del juego
+let totalScore = 0;
+let perfectStreak = 0;
+
+// --- DENTRO DE TU VALIDACIÓN DE ÉXITO ---
+if (typedText === currentWord) {
+    isFinished = true;
+    clearInterval(timerInterval);
+    const finalTime = ((Date.now() - startTime) / 1000);
+
+    // 1. Evaluar rendimiento usando las funciones creadas
+    const performance = evaluateWordPerformance(currentWord, finalTime, backspaceCount);
+
+    // 2. Calcular sistema de puntos base y multiplicador de tier
+    const basePointsPerJamo = 10;
+    let wordBaseScore = basePointsPerJamo * performance.totalJamos * performance.tierMultiplier;
+
+    // 3. Sistema de rachas de perfecto (Si el tier es S, incrementa la racha; si falla o baja de tier, se rompe o se ajusta)
+    if (performance.tier === 'S') {
+        perfectStreak++;
+    } else {
+        perfectStreak = 0; // Se rompe la racha si no es S (o puedes ajustarlo según prefieras)
+    }
+
+    // Multiplicador de racha (si racha es 0 o 1, multiplica por 1; si es 5, multiplica por 5)
+    const streakMultiplier = Math.max(1, perfectStreak);
+    const finalWordScore = Math.round(wordBaseScore * streakMultiplier);
+
+    totalScore += finalWordScore;
+
+    // 4. Actualizar la interfaz visual
+    document.getElementById('scoreDisplay').textContent = totalScore;
+    document.getElementById('streakDisplay').textContent = `${perfectStreak} 🔥`;
+    document.getElementById('lastTierDisplay').textContent = performance.tier;
+
+    // Estilos de éxito visuales
+    targetWordEl.classList.add('success');
+    liveInputDisplayEl.classList.add('success');
+    userInputEl.value = '';
+    userInputEl.blur();
+
+    wordMeaningEl.textContent = `${currentMeaning} (${finalTime.toFixed(1)}s) | Tier: ${performance.tier} (+${finalWordScore}pts)`;
+    wordMeaningEl.style.visibility = 'visible';
+
+    // 5. Reiniciar el contador de backspace para la siguiente palabra
+    backspaceCount = 0;
+
+    setTimeout(() => {
+        loadNewWord();
+    }, 1800);
+}
+
+//HTML
+
+<!-- Añadir en tu tarjeta de usuario (HTML) -->
+<div class="d-flex justify-content-around align-items-center bg-light p-2 rounded-3 mb-3 shadow-sm" style="font-size: 0.9rem;">
+    <div>Puntos: <strong id="scoreDisplay" class="text-primary">0</strong></div>
+    <div>Racha Perfecta: <strong id="streakDisplay" class="text-warning">0 🔥</strong></div>
+    <div>Último Tier: <strong id="lastTierDisplay" class="text-secondary">-</strong></div>
+</div>
