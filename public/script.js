@@ -226,7 +226,13 @@ if ('maxTouchPoints' in navigator && navigator.maxTouchPoints > 0 && window.inne
 // Mantener el foco en el input oculto al hacer clic en la tarjeta
 document.addEventListener('click', () => {
     if (!isFinished) {
-        userInputEl.focus();
+        window.addEventListener('click', (e) => {
+        // NUEVO: Si el usuario hizo clic dentro del lobby o en sus elementos, NO forces el foco al input de mecanografía
+            if (e.target.closest('#lobbyContainer')) {
+                return; 
+            }
+            userInputEl.focus();
+        });
     }
 });
 
