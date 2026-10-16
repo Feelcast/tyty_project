@@ -177,3 +177,66 @@ body {
     color: #ffffff !important;
     border-width: 0;
 }
+
+/* Esquina superior izquierda (Puntaje y Tier) */
+.hud-corner-top {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    z-index: 1050;
+}
+
+/* Esquina inferior izquierda (Racha de flama) */
+.streak-corner-bottom {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    z-index: 1050;
+}
+
+/* Colores y estilos dinámicos para los Tiers */
+.tier-c {
+    background-color: #e9ecef;
+    color: #6c757d; /* Gris */
+}
+
+.tier-b {
+    background-color: #fff3cd;
+    color: #b8860b; /* Amarillo oscuro / Dorado suave */
+    border: 1px solid #ffeeba;
+}
+
+.tier-a {
+    background-color: #d1e7dd;
+    color: #198754; /* Verde */
+}
+
+.tier-s {
+    background-color: #fff3cd;
+    color: #d4af37; /* Dorado brillante */
+    border: 1px solid #ffdf7e;
+    box-shadow: 0 0 8px rgba(255, 215, 0, 0.4);
+}
+
+/* Animación sutil de pulso para la flama de racha */
+.streak-flame {
+    animation: flame-pulse 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes flame-pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.15); }
+}
+
+/* Ajuste responsive para celulares */
+@media (max-width: 767.98px) {
+    .hud-corner-top, .streak-corner-bottom {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+    }
+}
