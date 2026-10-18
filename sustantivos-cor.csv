@@ -1,0 +1,595 @@
+﻿양,Cantidad
+청구서,Factura
+영수서,Recibo de compra
+구입 주문서,Orden de compra
+온도,Temperatura
+도,Grado Celsius
+번호,Número
+배달,Servicio de entrega
+유창,Fluido
+기운,Energía
+더위,Calor
+속도,Velocidad
+가속도,Aceleracion
+열,Calor
+입자,Particula
+문서,Documento
+대충,Vagamente
+가격,Precio
+관련,Relevante
+점,Punto
+원,Círculo
+표,"Gráfico (Tabla, diagrama)"
+물리학,Física
+수학,Matematicas
+빛깔,Color
+별,Estrella
+불빛,Brillo
+문장,Oración
+부정문,Oración negativa
+숙제,Tarea
+실수,Error/Equivocación
+주말,Fin de semana
+평일,Entre semana
+설명,Explicación
+문법,Gramática
+자신,Uno mismo
+기억,Memoria
+준비,Preparación
+도전,Reto
+충분,Suficiente
+솔직,Honestidad
+사이,Espacio
+얼굴,Cara
+동사,Verbo
+대명사,Pronombre
+포기,Rendición
+혼란,"Caos, confusión"
+종류,Tipo
+거의,Casi
+몇몇,"Unos pocos, algunos"
+시험,Examen
+결과,Resultado
+오류,Error
+수정,Correction
+노숙자,Persona sin hogar
+부서장,Jefe de departamento
+소음,Ruido
+동료,Colega
+처음,Primer
+물개,Foca
+표정,Expresión facial
+분위기,Atmosfera
+회의,Junta
+졸업,Graduación
+인증,Autenticación
+임시 차단,Bloqueo temporal
+역할,Rol
+일부로,A propósito
+제목,Título
+반데,Opuesto
+종류,Tipo
+서,Oeste
+동,Este
+남,Sur
+북,Norte
+왼,Izquierda
+오른,Derecha
+위,Arriba
+밑,Abajo
+쪽,Lado
+표,Boleto
+비행기,Avion
+왕복,Ida y vuelta
+요금,Tarifa
+관광객,Turista
+장소,Lugar
+야경,Vista de noche
+기차,Tren
+지방,Provincia/Estado
+지하철,Metro/Subterraneo
+도시,Ciudad/Pueblo
+배,Barco
+편,Vuelo
+수하물,Equipaje
+세관,Aduana
+가방,Maleta/Bolsa
+공항,Aeropuerto
+역,Terminal
+탑승구,Puerta de abordaje
+라운지,Sala de espera
+신분증,Identificación
+탑승권,Pase de abordar
+비행 상태,Estatus de vuelo
+결제,Pago
+계획,Plan
+항구,Puerto
+택시,Taxi
+숙박,Hospedaje
+여분의,Extra
+호텔,Hotel
+민박집,Posada
+리조트,Resort
+탑승 수속,Check-in
+체크아웃,Check-out
+여권,Pasaporte
+비자,Visa
+좌석,Asiento
+여행사,Agencia de viaje
+경찰서,Estación de policía
+편의점,Tienda de conveniencia
+수방서,Estación de bomberos
+약국,Farmacia
+역,Estación
+공원,Parque
+동네,Vecindario
+시내,Centro
+건물,Edificio
+지하철,Metro
+식당,Restaurante
+거리,"Calle, avenida"
+길,Camino
+숲,Bosque
+동물원,Zoológico
+도로,Pavimento
+철도,Vías del tren
+고층 건물,Edificio alto
+시청,Ayuntamiento
+시장,Alcalde
+시골/지방,Provincia
+고향,Ciudad natal
+마천루,Rascacielos
+정류장,Parada
+야경,Vista de noche
+박물관,Museo
+영화관,Cine
+극장,Teatro
+쇼핑몰,Plaza comercial
+슈퍼마켓,Supermercado
+체육관,Gimnasio
+호텔,Hotel
+아파트,Apartamento
+교통,Tráfico
+대중교통,Transporte público
+기차,Tren
+주차장,Estacionamiento
+사거리,Intersección
+횡단보도,Paso peatonal
+다리,Puente
+신호등,Semáforo
+신호,Señal
+지하,Subterráneo
+항구,Puerto
+고속 도로,Autopista
+터널,Túnel
+병원,Hospital
+식당,Restaurante
+카페,Cafetería
+가게,Tienda
+로터리,Rotonda
+사무실,Oficina
+트래픽 분배기,Distribuidor vial
+인도,Acera
+종합 운동장,Complejo deportivo
+대학 캠퍼스,Universidad
+컨벤션 센터,Centro de convenciones
+소로,Callejón
+운하,Canal
+배수관,Tuberías
+전기 케이블,Cables eléctricos
+소화전,Hidrante
+우편함,Buzón
+가로등,Alumbrado público
+급수,Agua potable
+전력 공급,Servicio de electricidad
+술집,Bar
+포스트,Poste
+정원,Jardín
+놀이터,Parque infantil
+교회,Iglesia
+울타리,Cercado
+벤치,Banca
+은행,Banco
+정육점,Carnicería
+청과물 상인,Frutería
+시장,Mercado
+기념물,Monumento
+조각상,Estatua
+광장,Explanada
+키오스코,Kiosko
+공공,Público
+공공 전화,Teléfono público
+풍경,Panorama
+정면,Fachada
+입구,Entrada
+퇴장,Salida
+지도,Mapa
+나무,Árbol
+관목,Arbusto
+장식품,Decoración
+경기장,Estadio
+백화점,Tienda departamental
+장소,Lugar
+주유소,Gasolinera
+지하철 노선,Linea de metro
+보행자,Peatón
+구획,Terreno
+식탁,Mesa
+책상,Escritorio
+책장,Librero
+문,Puerta
+창문,Ventana
+칠판,Pizarra
+의자,Silla
+방,Cuarto
+베개,Almohada
+가구,Mueble
+쓰래기,Basura
+시계,Reloj
+달력,Calendario
+냉장고,Refrigerador
+냉동고,Congelador
+주방,Cocina
+거실,Sala
+화장실,Baño
+쓰레받기,Recogedor
+운전자,Conductor
+인도,Acera
+신호등,Semáforo
+사거리,Intersección
+운전,Condución
+거리,Calle
+핸들,Volante
+타이어,Rueda
+기어,Transmision
+오토,Automatico
+수동,Manual
+감자,Papa
+당근,Zanahoria
+땅콩,Cacahuate
+재료,Ingrediente/Material
+요리법,Receta
+간장,Salsa de soya
+기름,Aceite
+참깨,Semilla de sesamo
+소금,Sal
+설탕,Azucar
+후추,Pimienta
+고추,"Chile, Aji"
+보리,Cebada
+콩,Frijol
+고수,Cilantro
+숟가락,Cuchara
+몰,Agua
+불,Fuego
+인생,Vida
+죽음,Muerte
+집,Casa
+시간,Tiempo
+마음,Mente/Corazón
+사실,Verdad
+거짓말,Mentira
+시작,Inicio
+끝,Fin
+음식,Comida
+음악,Música
+사람,Persona
+빛,Luz
+어둠,Oscuridad
+실패,Fracaso
+성공,Éxito
+자신,Yo mismo
+사진,Imagen
+소리,Sonido
+목소리,Voz
+과거,Pasado
+현재,Presente
+미래,Futuro
+돈,Dinero
+여러분,Todos
+분,Persona
+여자,Mujer
+남자,Hombre
+여자친구,Novia
+남자친구,Novio
+학교,Escuela
+도시,Ciudad
+나라,País
+사랑,Amor
+바람,Viento
+질문,Pregunta
+식당,Restaurante
+백화점,Tienda departamental
+마트,Supermercado
+신문,Periódico
+컴퓨터,Computadora
+이메일,E-mail
+인터넷,Internet
+전화번호,Número de teléfono
+전공,Especialidad
+거리,Distancia
+기분,Estado de ánimo
+성격,Personalidad
+어제,Ayer
+오늘,Hoy
+내일,Mañana
+그저께,Anteayer
+모레,Pasado mañana
+자정,Media noche
+한낮,Medio día
+지금,Ahora
+바로,Justo ahora
+아까,Justo antes
+이제,Ahora
+다음,Después
+처음,La primera vez
+새벽,Amanecer
+오전,Amanecer
+아침,Dia
+오후,Tarde
+저녁,Anochecer
+밤,Noche
+날,Dia
+일,Dia
+주,Semana
+달,Mes
+월,Mes
+년,Año
+해,Año
+이번주,Esta semana
+저번주,Semana anterior
+내주,Próxima semana
+이번달,Este mes
+저번달,Mes anterior
+내달,Próximo mes
+금년,Este año
+작년,Año anterior
+내년,Próximo año
+후,Después
+전,Antes
+시간,Tiempo
+분,Minuto
+초,Segundo
+시계,Reloj
+달력,Calendario
+크로노미터,Cronómetro
+사건,Suceso
+경과되된 시간,Tiempo transcurrido
+동시에,Al mismo tiempo
+뒤떨어지다,Desfasar
+동기화,Sincronización
+비동기식,Asincronía
+까지의 시간,Tiempo para
+잔여 시간,Tiempo restante
+나머지 부분,Lo que queda
+순간,Momento
+주기,Periodo
+세기,Siglo
+천년,Milenio
+이주간,Quincena
+격주로,Quincenal
+매월,Mensual
+매일,Diario
+매날,Diario
+매주,Semanal
+매년,Anual
+반복,Repetición
+행사,Evento
+기간,Duración
+나중,Después
+시간점,Punto en el tiempo
+사진,Foto
+전기,Electricidad
+정사각형,Cuadrado
+원,Círculo
+삼각형,Triángulo
+목록,Lista
+종류,Tipo
+구성,Composición
+상태,Condicion
+저장,Almacenamiento
+위치,Locacion
+말투,Forma de hablar
+언급,"Mencion, referencia"
+정리,"Organizacion, arreglo"
+결론,Conclusión
+수준,Nivel
+활동,Actividad
+일정,Itinerario
+행동,Comportamiento
+공격,"Ataque, crítica"
+결과,Resultado
+설계,Diseño
+사고,Accidente
+개념,Concepto
+순간,Momento
+개발,Desarrollo
+경험,Experiencia
+자신감,Confianza en si mismo
+인기,Popularidad
+핵심,Escencia
+특성,Característica
+연구,Investigación
+경쟁,Competencia
+문제점,Problema
+전반적,General
+상황,Circunstancia
+협력,Cooperación
+형태,Forma
+과정,Proceso
+영감,Inspiración
+발전,Desarrollo
+강조,Énfasis
+희생,Sacrificio
+인상,Impresión
+처리,Procesamiento
+확장,Expansión
+전달,Entrega
+제한,Límite
+환경,Entorno
+자동화,Automatización
+절차,Procedimiento
+기초,Base
+공포,Terror
+조건,Término
+정확성,Precision
+선호,preferencia
+혁신적,"Inovacion, creatividad"
+공감,Empatia
+균형,Equilibrio
+연속,Continuidad
+변화,Cambio
+해결책,Solucion
+공급,Abastecimiento
+실현,Realización
+유효한,Válido
+증가,Incremento
+감소,Disminucion
+대체,"Substitucion, reemplazo"
+형용사,adejtivo
+명사,sustantivo
+동사,verbo
+주제,sujeto
+"술부, 술어",predicado
+대명사,pronombre
+높임 등급,nivel de formalidad
+활용,conjugación
+불규칙,Irregular
+어미,terminación del verbo
+문법,gramática
+어휘,vocabulario
+문장,oración
+단수형,Singular
+복수형,Plural
+성,Genero
+봄,Primavera
+여름,Verano
+가을,Otoño
+겨울,Invierno
+계절,Estación
+오로라,Aurora
+폭염,Golpe de calor
+공용어,Lengua oficial
+모국어,Lengua materna
+영토,Territorio
+국경,Frontera
+주,Estado
+경제,Economía
+대통령,President
+문화,Cultura
+사회,Sociedad
+원어민,Hablante nativo
+원주민,Nativo
+이민자,Inmigrante
+입국,Inmigración
+출국,Emigración
+사진, Foto
+전기, Electricidad
+정사각형, Cuadrado
+원, Círculo
+삼각형, Triángulo
+건강    ,Salud
+계단    ,Escaleras
+곳  ,Lugar
+공연장  ,Sala de espectáculos / Auditorio
+관람    ,Ver / Observar (un espectáculo)
+관리실  ,Oficina de administración
+관심    ,Interés
+규칙    ,Regla / Norma
+극장    ,Teatro
+기숙사  ,Dormitorio / Residencia estudiantil
+꽃집    ,Floristería
+내용    ,Contenido / Historia
+냄새    ,Olor
+노력    ,Esfuerzo
+노트북  ,Computadora portátil (Laptop)
+놀이 기구   ,Atracción (de parque de diversiones)
+뉴스    ,Noticias
+다이어트    ,Dieta
+담배    ,Cigarrillo
+답장    ,Respuesta (mensaje/carta)
+대학원  ,Escuela de posgrado
+동네    ,Barrio / Vecindario
+동전    ,Moneda
+들다    ,Llevar / Levantar / Costar
+모습    ,Apariencia / Figura
+목걸이  ,Collar
+문제    ,Pregunta / Problema
+문화 센터   ,Centro cultural
+미래    ,Futuro
+발음    ,Pronunciación
+방송국  ,Emisora / Estación de radiodifusión
+복습    ,Repaso
+분  ,Persona (honorífico) / Minuto
+비타민  ,Vitamina
+빈자리  ,Asiento vacío
+빌딩    ,Edificio
+빨리빨리    ,Rápido rápido
+사거리  ,Cruce / Intersección
+사전    ,Diccionario
+산악자전거  ,Bicicleta de montaña
+상자    ,Caja
+새  ,Pájaro
+새벽    ,Amanecer / Madrugada
+생일날  ,Día de cumpleaños
+성격    ,Personalidad
+세일 기간   ,Periodo de rebajas
+세종 대왕   ,Rey Sejong
+소리    ,Sonido
+수학    ,Matemáticas
+신호등  ,Semáforo
+쌍둥이  ,Gemelos
+쓰레기  ,Basura
+아이    ,Niño
+아이디어    ,Idea
+안내    ,Guía / Aviso
+안내문  ,Folleto informativo / Aviso escrito
+안내 자료   ,Material informativo
+안전선  ,Línea de seguridad
+알람 시계   ,Reloj despertador
+앞자리  ,Asiento delantero
+엄마    ,Mamá
+여러 가지   ,Varios tipos
+연극    ,Obra de teatro
+연기    ,Actuación
+옆집    ,Casa de al lado / Vecino
+예절    ,Etiqueta / Modales
+예정    ,Plan / Programa
+위  ,Puesto / Ranking 
+유학생  ,Estudiante extranjero
+육교    ,Puente peatonal
+일정    ,Horario / Itinerario
+입구    ,Entrada
+자리    ,Asiento / Lugar
+저희    ,Nosotros (humilde)
+전시    ,Exhibición
+전통 놀이   ,Juego tradicional
+정문    ,Puerta principal
+중간    ,Medio / Mitad
+중학교  ,Escuela secundaria (media)
+지하도  ,Paso subterráneo
+지하철역    ,Estación de metro
+짐  ,Equipaje / Carga
+천사    ,Ángel
+초콜릿  ,Chocolate
+최고    ,El mejor
+추억    ,Recuerdo / Memoria
+축구 선수   ,Jugador de fútbol
+축구장  ,Campo de fútbol
+취향    ,Gusto / Preferencia
+캘리그라피  ,Caligrafía
+키  ,Altura / Estatura
+택배    ,Paquetería / Encomienda
+토끼    ,Conejo
+하늘    ,Cielo
+학기    ,Semestre
+한국말  ,Idioma coreano
+한글날  ,Día del Hangeul
+할머니  ,Abuela
+할아버지    ,Abuelo
+해  ,Sol
+행사    ,Evento
+향수    ,Perfume
+홈페이지    ,Página web
+화가    ,Pintor
+횡단보도    ,Paso de peatones
