@@ -17,9 +17,73 @@ app.use(express.static(path.join(__dirname, 'public')));
 const rooms = {};
 
 // Función para leer y parsear el archivo CSV de palabras
-async function loadWordsFromCSV() {
+
+async function provideWordsLangType(type, language) {
+    // type puede ser: un string ('sustantivo'), una lista separada por comas ('sustantivo,verbo'), un arreglo (['sustantivo', 'verbo']), o 'todo'
+    // language puede ser: 'coreano', 'espanol' (o el idioma que corresponda), o 'todo'
+    
+    const matchingFiles = [];
+    const filePath = path.join(__dirname, 'dicts_lang_type.csv');
+    
+    if (!fs.existsSync(filePath)) {
+        return [];
+    }
+
+    // Normalizar 'type' a un arreglo de minúsculas para facilitar la validación múltiple
+    let targetTypes = [];
+    if (Array.isArray(type)) {
+        targetTypes = type.map(t => t.toLowerCase().trim());
+    } else if (typeof type === 'string') {
+        targetTypes = type.toLowerCase().split(',').map(t => t.trim());
+    } else {
+        targetTypes = ['todo'];
+    }
+
+    const targetLang = (language || 'todo').toLowerCase().trim();
+
+    const fileStream = fs.createReadStream(filePath);
+    const rl = readline.createInterface({
+        input: fileStream,
+        crlfDelay: Infinity
+    });
+
+    for await (const line of rl) {
+        if (!line.trim()) continue;
+        
+        const parts = line.split(',').map(p => p.trim());
+        if (parts.length >= 3) {
+            const csvType = parts[0].toLowerCase();
+            const csvLang = parts[1].toLowerCase();
+            const csvFileName = parts[2];
+
+            const matchesLanguage = (targetLang === 'todo' || csvLang === targetLang);
+            
+            // Comprueba si el tipo del CSV está incluido en la lista de tipos solicitados (o si se pidió 'todo')
+            const matchesType = (targetTypes.includes('todo') || targetTypes.includes(csvType));
+
+            if (matchesLanguage && matchesType) {
+                // Evitar duplicados en caso de que un archivo mapee varias veces
+                if (!matchingFiles.includes(csvFileName)) {
+                    matchingFiles.push(csvFileName);
+                }
+            }
+        }
+    }
+
     const results = [];
-    const filePath = path.join(__dirname, 'words.csv');
+    
+    // Toma todos los nombres de los archivos únicos, los lee y junta toda la información
+    for await (const filename of matchingFiles) {
+        const content = await loadWordsFromCSV(filename);
+        results.push(...content);
+    }
+    
+    return results;
+}
+
+async function loadWordsFromCSV(filename) {
+    const results = [];
+    const filePath = path.join(__dirname, filename);
 
     if (!fs.existsSync(filePath)) {
         // Datos por defecto si no existe el CSV aún
@@ -45,17 +109,31 @@ async function loadWordsFromCSV() {
                 meaning: parts.slice(1).join(',').trim()
             });
         }
+        else{
+            results.push({
+                word: parts[0].trim()
+            })
+        }
     }
     return results;
 }
 
 app.get('/api/words', async (req, res) => {
     try {
-        const words = await loadWordsFromCSV();
+        // req.query.type puede venir como string ("sustantivo,verbo") o array si se envía repetido (?type=sustantivo&type=verbo)
+        let type = req.query.type || 'todo';
+        if (Array.isArray(req.query.type)) {
+            type = req.query.type; // Express ya lo maneja como array
+        }
+
+        const language = req.query.language || 'todo';
+
+        const words = await provideWordsLangType(type, language);
+        
         res.json(words);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Error al leer el archivo de palabras' });
+        res.status(500).json({ error: 'Error al procesar el vocabulario' });
     }
 });
 

@@ -12,6 +12,9 @@ let previousInputValue = '';
 let totalScore = 0;
 let perfectStreak = 0;
 
+let currentTypes = 'todo';
+let currentLanguage = 'coreano';
+
 //cosas locales
 const targetWordEl = document.getElementById('targetWord');
 const liveInputDisplayEl = document.getElementById('liveInputDisplay');
@@ -36,9 +39,23 @@ const partnerCardContainer = document.getElementById('partnerCardContainer');
 const partnerTargetWordEl = document.getElementById('partnerTargetWord');
 const partnerLiveInputEl = document.getElementById('partnerLiveInput');
 
-async function fetchWords() {
+async function fetchWords(types = 'todo', language = 'coreano') {
     try {
-        const response = await fetch('/api/words');
+        // Construir los parámetros de consulta de forma limpia y segura
+        const params = new URLSearchParams();
+        
+        // Si 'types' es un arreglo, lo unimos con comas; si es string, se pasa directo
+        if (Array.isArray(types)) {
+            params.append('type', types.join(','));
+        } else {
+            params.append('type', types);
+        }
+        
+        params.append('language', language);
+
+        const response = await fetch(`/api/words?${params.toString()}`);
+        if (!response.ok) throw new Error('Respuesta de red no fue exitosa');
+        
         words = await response.json();
         loadNewWord();
     } catch (error) {
@@ -412,5 +429,5 @@ skipBtn.addEventListener('click', (e) => {
 });
 
 
-fetchWords();
+fetchWords(currentTypes, currentLanguage);
 
